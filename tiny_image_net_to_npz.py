@@ -48,7 +48,7 @@ def try_read_image(path):
         return None
 
 
-def read_images(folder):
+def read_images(folder, max_files=1000):
     print("Processing folder {}".format(folder))
     image_acc = []
     filenames_acc = []
@@ -63,6 +63,8 @@ def read_images(folder):
             continue
         image_acc.append(image)
         filenames_acc.append(filename)
+        if len(image_acc) >= max_files:
+            break
     gc.collect(0)
     return image_acc, filenames_acc
 
@@ -111,7 +113,7 @@ if __name__ == "__main__":
         labels = []
         subfolders = os.listdir(args.inp)
         for subfolder in subfolders:
-            sub_images, _ = read_images(os.path.join(args.inp, subfolder + "/images"))
+            sub_images, _ = read_images(os.path.join(args.inp, subfolder + "/images"), 20)
             sub_label = wnids[subfolder]
             sub_labels = [sub_label] * len(sub_images)
 
