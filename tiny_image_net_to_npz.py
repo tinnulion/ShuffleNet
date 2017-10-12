@@ -75,7 +75,7 @@ def read_labels(labels_path, filenames, wnids):
     filename_to_wnid = dict()
     lines = open(labels_path).readlines()
     for line in lines:
-        items = line.split(" ")
+        items = line.split("\t")
         filename_to_wnid[items[0]] = items[1]
     labels = []
     for filename in filenames:
