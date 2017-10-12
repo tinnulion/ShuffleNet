@@ -12,6 +12,7 @@ RESIZE_SIZE = 64
 CROP_SIZE = 56
 IMG_EXT = ["jpg", "jpeg", "png"]
 WNIDS_FILE = "tiny_image_net_wnids.txt"
+MAX_FILES_TRAIN = 20
 
 
 def read_wnids(path):
@@ -48,7 +49,7 @@ def try_read_image(path):
         return None
 
 
-def read_images(folder, max_files=1000):
+def read_images(folder, max_files=1000000):
     print("Processing folder {}".format(folder))
     image_acc = []
     filenames_acc = []
@@ -113,7 +114,7 @@ if __name__ == "__main__":
         labels = []
         subfolders = os.listdir(args.inp)
         for subfolder in subfolders:
-            sub_images, _ = read_images(os.path.join(args.inp, subfolder + "/images"), 20)
+            sub_images, _ = read_images(os.path.join(args.inp, subfolder + "/images"), MAX_FILES_TRAIN)
             sub_label = wnids[subfolder]
             sub_labels = [sub_label] * len(sub_images)
 
@@ -127,6 +128,9 @@ if __name__ == "__main__":
     y = numpy.stack(labels)
     print("X shape", x.shape)
     print("Y shape", y.shape)
+
+    print("Crop size = {:d}".format(CROP_SIZE))
+    print("Max files in train = {:d}".format(MAX_FILES_TRAIN))
 
     print("Saving results...")
     numpy.savez(args.out, x, y)
