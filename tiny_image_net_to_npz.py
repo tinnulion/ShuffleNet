@@ -122,7 +122,7 @@ if __name__ == "__main__":
             labels.extend(sub_labels)
     if mode == "val":
         images, filenames = read_images(os.path.join(args.inp, "images"))
-        labels = read_labels(filenames, args.inp, wnids)
+        labels = read_labels(os.path.join(args.inp, "val_annotations.txt"), filenames, wnids)
 
     x = numpy.stack(images)
     y = numpy.stack(labels)
